@@ -30,7 +30,7 @@ Este projeto é uma aplicação Python utilizando SQLAlchemy para gerenciar regi
   - `db_session.py`: Configura a sessão de banco de dados.
 
 - **models**
-  - Contém os modelos de dados: `AditivoNutritivo`, `Sabor`, `Picole`, `Revendedor`.
+  - Contém os modelos de dados, como: `AditivoNutritivo`, `Sabor`, `Picole`, `Revendedor`, etc.
 
 - **select_main.py**
   - Contém funções para consultas de dados, como seleção por ID e agregações.
