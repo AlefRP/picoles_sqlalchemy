@@ -1,8 +1,8 @@
-# Projeto de Banco de Dados para Gerenciamento de Picoles com SQLAlchemy
+# ✏️ Projeto de Banco de Dados para Gerenciamento de Picoles com SQLAlchemy
 
 Este projeto é uma aplicação Python utilizando SQLAlchemy para gerenciar registros relacionados a picoles, aditivos nutritivos, sabores, revendedores, dentre outros. Ele permite realizar operações CRUD (Create, Read, Update, Delete) e inclui consultas complexas para facilitar o gerenciamento de dados.
 
-## Funcionalidades Principais
+## ✨ Funcionalidades Principais
 
 1. **Seleção de Dados**
 
@@ -22,7 +22,7 @@ Este projeto é uma aplicação Python utilizando SQLAlchemy para gerenciar regi
 
    - Usa funções de grupo e ordenação para gerar estatísticas e relatórios.
 
-## Estrutura do Projeto
+## 📂 Estrutura do Projeto
 
 - **conf**
   
@@ -48,7 +48,7 @@ Este projeto é uma aplicação Python utilizando SQLAlchemy para gerenciar regi
 - **Pacotes Python**: Listados no arquivo `requirements.txt`
   - `SQLAlchemy`
 
-## Como Reproduzir o Projeto
+## 🚀 Como Reproduzir o Projeto
 
 ### 1. Clone o repositório
 
@@ -69,6 +69,6 @@ pip install -r requirements.txt
 python select_main.py
 ```
 
-## Licença
+## 📜 Licença
 
 Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE.md](LICENSE) para mais detalhes.
