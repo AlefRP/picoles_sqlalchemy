@@ -41,7 +41,7 @@ Este projeto é uma aplicação Python utilizando SQLAlchemy para gerenciar regi
 - **delete_main.py**
   - Implementa a lógica para deletar registros de picolés e revendedores.
 
-## Pré-requisitos
+## 📋 Pré-requisitos
 
 - **Python**: Versão 3.10 ou superior
 - **Virtualenv**: Para gerenciamento de ambiente
