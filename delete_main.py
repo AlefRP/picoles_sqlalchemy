@@ -5,41 +5,36 @@
 """
 
 from typing import Optional
-
-
+from conf.helpers import formata_data
 from conf.db_session import create_session
-
-
 from models.revendedor import Revendedor
 from models.picole import Picole
 
 
-
-def deletar_picole(id_picole: int) -> None:
+def delete_picole(id_picole: int) -> None:
     with create_session() as session:
         # Passo 1
         picole: Optional[Picole] = session.query(Picole).filter(Picole.id == id_picole).one_or_none()
-
+        
         if picole:
             # Passo 2
             session.delete(picole)
             # Passo 3
             session.commit()
         else:
-            print(f'Não encontrei picole com id {id_picole}')
+            print(f'Nao encontrei picole com ID {id_picole}')
 
-
-
-def deletar_revendedor(id_revendedor: int) -> None:
+def delete_revendedor(id_revendedor: int) -> None:
     with create_session() as session:
+        # Passo 1
         revendedor: Optional[Revendedor] = session.query(Revendedor).filter(Revendedor.id == id_revendedor).one_or_none()
-
+        
         if revendedor:
+            # Passo 2
             session.delete(revendedor)
+            # Passo 3
             session.commit()
-        else:
-            print(f'Não encontrei nenhum revendedor com id {id_revendedor}')
-
+            
 
 def select_filtro_revendedor(id_revendedor: int) -> None:
     with create_session() as session:
@@ -47,33 +42,37 @@ def select_filtro_revendedor(id_revendedor: int) -> None:
 
         if revendedor:
             print(f'ID: {revendedor.id}')
-            print(f'Razão Social: {revendedor.razao_social}')
+            print(f'Data: {formata_data(revendedor.data_criacao)}')
+            print(f'Nome: {revendedor.razao_social}')
         else:
-            print(f'Não encontrei nenhum revendedor com id {id_revendedor}')
+            print(f'Não existe revendedor com ID {id_revendedor}')
 
 
-if __name__ == '__main__':
-    # from update_main import select_filtro_picole
 
-    # id_picole = 21
-
+if __name__ == "__main__":
+    from update_main import select_filtro_picole
+    
+    id_picole = 2
+    
     # # Antes
     # select_filtro_picole(id_picole=id_picole)
-
+    
     # # Deletar
-    # deletar_picole(id_picole=id_picole)
-
+    # delete_picole(id_picole=id_picole)
+    
     # # Depois
     # select_filtro_picole(id_picole=id_picole)
     
-    id_revendedor_nv = 6
-    id_revendedor_v = 3
-
+    # id_revendedor = 43
+    
     # Antes
-    select_filtro_revendedor(id_revendedor=id_revendedor_v)
-
+    # select_filtro_revendedor(id_revendedor=id_revendedor)
+    
+    for id_revendedor in range(1, 31):
+        delete_revendedor(id_revendedor=id_revendedor)
+        
     # Deletar
-    deletar_revendedor(id_revendedor=id_revendedor_v)
-
+    # delete_revendedor(id_revendedor=id_revendedor)
+    
     # Depois
-    select_filtro_revendedor(id_revendedor=id_revendedor_v)
+    # select_filtro_revendedor(id_revendedor=id_revendedor)

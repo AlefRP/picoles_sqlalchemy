@@ -1,14 +1,12 @@
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
-
-from datetime import datetime
-from typing import List
-
 from models.model_base import ModelBase
 from models.revendedor import Revendedor
 from models.lote import Lote
+from sqlalchemy.orm import Mapped, mapped_column
+from typing import List
 
-# Nota Fiscal pode ter vários lotes
+# Tabela de associação para a relação muitos-para-muitos entre NotaFiscal e Lote
 lotes_nota_fiscal = sa.Table(
     'lotes_nota_fiscal',
     ModelBase.metadata,
@@ -16,23 +14,18 @@ lotes_nota_fiscal = sa.Table(
     sa.Column('id_lote', sa.Integer, sa.ForeignKey('lotes.id'))
 )
 
-
 class NotaFiscal(ModelBase):
-    __tablename__: str = 'notas_fiscais'
-
-    id: int = sa.Column(sa.BigInteger, primary_key=True, autoincrement=True)
-    data_criacao: datetime = sa.Column(sa.DateTime, default=datetime.now, index=True)
-
-    valor: float = sa.Column(sa.DECIMAL(8,2), nullable=False)
-    numero_serie: str = sa.Column(sa.String(45), unique=True, nullable=False)
-    descricao: str = sa.Column(sa.String(200), nullable=False)
-
-    id_revendedor: int = sa.Column(sa.Integer, sa.ForeignKey('revendedores.id', ondelete="CASCADE"))
-    revendedor: Revendedor = orm.relationship('Revendedor', lazy='joined', cascade="delete")
-
-    # Uma nota fiscal pode ter vários lotes e um lote está ligado a uma nota fiscal
-    lotes: List[Lote] = orm.relationship('Lote', secondary=lotes_nota_fiscal, backref='lote', lazy='dynamic')
-
-    def __repr__(self) -> int:
+    __tablename__ = 'notas_fiscais'
+    
+    valor: Mapped[float] = mapped_column(sa.DECIMAL(8, 2), nullable=False)
+    numero_serie: Mapped[str] = mapped_column(sa.String(45), unique=True, nullable=False)
+    descricao: Mapped[str] = mapped_column(sa.String(200), nullable=False)
+    
+    id_revendedor: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey('revendedores.id', ondelete='CASCADE')) # Para permitir deleção em cascade adiciono "ondelete='CASCADE'"
+    revendedor: Mapped[Revendedor] = orm.relationship('Revendedor', lazy='joined', cascade='delete') # Para permitir deleção em cascade "cascade='delete'""
+    
+    # Relacionamento muitos-para-muitos com Lote
+    lotes: Mapped[List[Lote]] = orm.relationship('Lote', secondary=lotes_nota_fiscal, backref='lote', lazy='dynamic')
+    
+    def __repr__(self):
         return f'<Nota Fiscal: {self.numero_serie}>'
-

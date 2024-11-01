@@ -1,20 +1,14 @@
 import sqlalchemy as sa
-
-from datetime import datetime
-
 from models.model_base import ModelBase
-
+from sqlalchemy.orm import Mapped, mapped_column
 
 class Revendedor(ModelBase):
-    __tablename__: str = 'revendedores'
-
-    id: int = sa.Column(sa.BigInteger, primary_key=True, autoincrement=True)
-    data_criacao: datetime = sa.Column(sa.DateTime, default=datetime.now, index=True)
+    __tablename__ = 'revendedores'
     
-    cnpj: str = sa.Column(sa.String(45), unique=True, nullable=False)
-    razao_social: str = sa.Column(sa.String(100), nullable=False)
-    contato: str = sa.Column(sa.String(100), nullable=False)
-
-    def __repr__(self) -> str:
+    ativo: Mapped[bool] = mapped_column(sa.Boolean, default=True)
+    cnpj: Mapped[str] = mapped_column(sa.String(14), unique=True, nullable=False)
+    razao_social: Mapped[str] = mapped_column(sa.String(100), unique=True, nullable=False)
+    contato: Mapped[str] = mapped_column(sa.String(100), unique=True, nullable=False)
+    
+    def __repr__(self):
         return f'<Revendedor: {self.razao_social}>'
-

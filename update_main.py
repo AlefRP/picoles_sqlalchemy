@@ -1,84 +1,72 @@
 """
 1 - Buscar o registro a ser atualizado;
-2 - Faz as alterações no registro;
-3 - Salva o registro no banco de dados;
+2 - Efetuar as alterações no registro;
+3 - Salvar as alterações no banco de dados.
 """
-from conf.db_session import create_session
 
+from conf.db_session import create_session
 from models.sabor import Sabor
 from models.picole import Picole
+from select_main import select_filtro_sabor
 
 
-def select_filtro_picole(id_picole: int) -> None:
+def select_filtro_picole(id_picole: int) -> Picole | None:
     with create_session() as session:
-        picole: Picole = session.query(Picole).where(Picole.id == id_picole).one_or_none()
-
+        picole: Picole = session.query(Picole).filter(Picole.id == id_picole).one_or_none()
+        
         if picole:
             print(f'ID: {picole.id}')
+            print(f'Data: {picole.data_criacao}')
             print(f'Sabor: {picole.sabor.nome}')
         else:
-            print('Não existe o picole com o id informado')
+            print(f'Não existe picole com ID {id_picole}')
 
 
-
-def atualizar_sabor(id_sabor: int, novo_nome: str) -> None:
+def update_sabor(id_sabor: int, novo_nome: str) -> None:
     with create_session() as session:
-        # Passo 1
         sabor: Sabor = session.query(Sabor).filter(Sabor.id == id_sabor).one_or_none()
-
+        
         if sabor:
-            # Passo 2
             sabor.nome = novo_nome
-            # Passo 3
             session.commit()
         else:
             print(f'Não existe sabor com ID {id_sabor}')
 
-
-
-def atualizar_picole(id_picole: int, novo_preco: float, novo_sabor: int = None):
+          
+def update_picole(id_picole: int, novo_preco: float, novo_sabor: int = None) -> None:
     with create_session() as session:
-        # Passo 1
         picole: Picole = session.query(Picole).filter(Picole.id == id_picole).one_or_none()
 
         if picole:
-            # Passo 2
             picole.preco = novo_preco
-            # Se quisermos alterar o sabor também....
+            # Se quisermos alterar o sabor também...
             if novo_sabor:
                 picole.id_sabor = novo_sabor
-            # Passo 3
             session.commit()
         else:
-            print(f'Não existe picole com id {id_picole}')
-
-
+            print(f'Não existe picole com ID {id_picole}')
 
 
 if __name__ == '__main__':
-    # from select_main import select_filtro_sabor
-
-    # id_sabor = 42
-
-    # # Antes
-    # select_filtro_sabor(id_sabor=id_sabor)
-
-    # # Atualizando
-    # atualizar_sabor(id_sabor=id_sabor, novo_nome='Abacate')
-
-    # # Depois
-    # select_filtro_sabor(id_sabor=id_sabor)
-
-    id_picole = 21
-    novo_preco = 9.99
-    id_novo_sabor = 66
-
+    
+    id_sabor = 3
+    
     # Antes
-    select_filtro_picole(id_picole=id_picole)
-
+    select_filtro_sabor(id_sabor=id_sabor)
+    
     # Atualizando
-    atualizar_picole(id_picole=id_picole, novo_preco=novo_preco, novo_sabor=id_novo_sabor)
-
+    # update_sabor(id_sabor=id_sabor, novo_nome='Mangarin')
+    
     # Depois
+    # select_filtro_sabor(id_sabor=id_sabor)
+    
+    id_picole = 2
+    
+    # Antes de atualizar o picole
     select_filtro_picole(id_picole=id_picole)
-
+    
+    # Atualizando o picole
+    update_picole(id_picole=id_picole, novo_preco=9.99, novo_sabor=2)
+    
+    # Depois de atualizar o picole
+    select_filtro_picole(id_picole=id_picole)

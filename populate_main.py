@@ -193,7 +193,7 @@ def populate_nota_fiscal():
     print('Notas Fiscais cadastradas com sucesso')
 
 
-#10) Piole
+#10) Picole
 def populate_picole():
     print(f'Cadastrando Picolés: ')
 
